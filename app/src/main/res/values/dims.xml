@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="plants_list_title_text_size">22sp</dimen>
+    <dimen name="plants_name_text_size">20sp</dimen>
+    <dimen name="plants_name_margin_horizontal">8sp</dimen>
+    <dimen name="plants_type_text_size">18sp</dimen>
+    <dimen name="plants_type_margin_horizontal">12sp</dimen>
+</resources>

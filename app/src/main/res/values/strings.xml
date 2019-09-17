@@ -1,3 +1,9 @@
 <resources>
     <string name="app_name">AAComponent</string>
+    <string name="plant_list_title_text">Plants list</string>
+    <string name="plant_id_template_text">id: %1$s</string>
+    <string name="plant_scientific_template_text">scientific name: %1$s</string>
+    <string name="plant_type_template_text">type: %1$s</string>
+    <string name="plant_family_template_text">family: %1$s</string>
+    <string name="plant_species_template_text">species: %1$s</string>
 </resources>
