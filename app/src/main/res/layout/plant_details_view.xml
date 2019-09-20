@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
+<layout>
+    <data>
+        <variable
+            name="plant"
+            type="com.tivo.aacomponent.model.Plant" />
+    </data>
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -24,39 +29,30 @@
         android:id="@+id/plant_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Name"
         android:textSize="@dimen/plants_name_text_size"
         android:background="@color/half_transparent_background"
         android:textAppearance="@style/AppTheme.Text.LightTheme"
         android:textAlignment="center"
-        android:paddingStart="@dimen/plants_name_margin_horizontal"
-        android:paddingEnd="@dimen/plants_name_margin_horizontal"
+        android:paddingStart="@dimen/plants_info_margin_horizontal"
+        android:paddingEnd="@dimen/plants_info_margin_horizontal"
+        android:text="@{plant.common_name != null ? plant.common_name : plant.scientific_name}"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="@id/plant_image"
         />
     <TextView
-        android:id="@+id/plant_id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="id: Type"
-        android:paddingStart="12dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/plant_image" />
-    <TextView
         android:id="@+id/plant_scientific_name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="scientific name: Type"
-        android:paddingStart="12dp"
+        android:paddingStart="@dimen/plants_info_margin_horizontal"
+        android:paddingEnd="@dimen/plants_info_margin_horizontal"
+        android:text="@{plant.scientific_name}"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/plant_id" />
-
+        app:layout_constraintTop_toBottomOf="@id/plant_name" />
     <TextView
         android:id="@+id/plant_type"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="genus: Type"
         android:paddingStart="12dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/plant_scientific_name" />
@@ -76,5 +72,11 @@
         android:paddingStart="12dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/plant_family" />
-
+    <View
+        android:id="@+id/plant_id"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/plant_image" />
 </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

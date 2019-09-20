@@ -30,13 +30,12 @@ class MainActivity : Activity() {
     }
 
     private fun initPlantList() {
-        adapter = PlantListAdapter(R.layout.plant_list_view_item, listOf(null))
+        adapter = PlantListAdapter(R.layout.plant_list_view_item, emptyList())
         binding.plantsList.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
         binding.plantsList.adapter = adapter
-        adapter.clickListener = { view ->
-            val plantId = view.findViewById<View>(R.id.plant_id).tag as Int
+        adapter.listener = { plant ->
             val intent = Intent(this, PlantDetailsActivity::class.java)
-            intent.putExtra(PlantDetailsActivity.PLANT_ID_TAG, plantId)
+            intent.putExtra(PlantDetailsActivity.PLANT_ID_TAG, plant.id)
             startActivity(intent)
         }
 
