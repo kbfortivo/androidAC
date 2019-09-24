@@ -2,9 +2,13 @@ package com.tivo.aacomponent
 
 import android.app.Activity
 import android.os.Bundle
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
+import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
+import com.tivo.aacomponent.databinding.ActivityMainBinding
+import com.tivo.aacomponent.databinding.PlantDetailsViewBinding
 import com.tivo.aacomponent.repository.PlantRepository
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
@@ -16,10 +20,12 @@ class PlantDetailsActivity : Activity() {
     //Inject repository
     val repository: PlantRepository by inject()
     val disposable = CompositeDisposable()
+    lateinit var binding: PlantDetailsViewBinding
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.plant_details_view)
+        // change this to use data binding
+        binding = DataBindingUtil.setContentView(this, R.layout.plant_details_view)
         initPlant()
     }
 
@@ -35,12 +41,10 @@ class PlantDetailsActivity : Activity() {
             .subscribe {
                 plant, s ->
                 plant?.let {
-                    val plantName = findViewById<TextView>(R.id.plant_name)
-                    plantName.text = it.common_name ?: it.scientific_name
-                    val plantId = findViewById<TextView>(R.id.plant_id)
-                    plantId.text = getString(R.string.plant_id_template_text, it.id.toString())
+                    binding.plant = it
+
                     val plantScientific = findViewById<TextView>(R.id.plant_scientific_name)
-                    plantScientific.text = getString(R.string.plant_scientific_template_text, it.scientific_name ?: "")
+                    plantScientific.text = getString(R.string.plant_scientific_template_text, it.scientific_name)
                     val plantType = findViewById<TextView>(R.id.plant_type)
                     plantType.text = getString(R.string.plant_type_template_text, it.genus?.name ?: "")
                     val plantFamily = findViewById<TextView>(R.id.plant_family)
@@ -48,12 +52,11 @@ class PlantDetailsActivity : Activity() {
                     val plantSpecies = findViewById<TextView>(R.id.plant_species)
                     plantSpecies.text = getString(R.string.plant_species_template_text, it.species.name ?: it.species.scientific_name)
                     if (plant.images.isNotEmpty()) {
-                        val plantImage = findViewById<ImageView>(R.id.plant_image)
                         Glide
                             .with(applicationContext)
                             .load(plant.images[0].url)
                             .placeholder(R.drawable.rose_img)
-                            .into(plantImage)
+                            .into(binding.plantImage)
                     }
                 }
 

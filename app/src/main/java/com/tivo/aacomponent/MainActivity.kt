@@ -3,7 +3,6 @@ package com.tivo.aacomponent
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
-import android.view.View
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.tivo.aacomponent.adapter.PlantListAdapter
@@ -20,7 +19,6 @@ class MainActivity : Activity() {
     val repository: PlantRepository by inject()
     val disposable = CompositeDisposable()
     lateinit var binding: ActivityMainBinding
-    private lateinit var adapter: PlantListAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,20 +28,12 @@ class MainActivity : Activity() {
     }
 
     private fun initPlantList() {
-        adapter = PlantListAdapter(R.layout.plant_list_view_item, emptyList())
-        binding.plantsList.layoutManager = LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false)
-        binding.plantsList.adapter = adapter
-        adapter.listener = { plant ->
-            val intent = Intent(this, PlantDetailsActivity::class.java)
-            intent.putExtra(PlantDetailsActivity.PLANT_ID_TAG, plant.id)
-            startActivity(intent)
-        }
 
         disposable.addAll(repository.getPlants()
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe { plants, s ->
-                adapter.setPlants(plants)
+                binding.plants = plants
             })
     }
 }

@@ -7,7 +7,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.tivo.aacomponent.R
-import com.tivo.aacomponent.databinding.PlantDetailsViewBinding
+import com.tivo.aacomponent.databinding.PlantListViewItemBinding
 import com.tivo.aacomponent.model.Plant
 
 class PlantListAdapter(private val resId: Int, plants: List<Plant>)
@@ -47,5 +47,5 @@ class PlantListAdapter(private val resId: Int, plants: List<Plant>)
         }
     }
 
-    class ViewHolder(val binding: PlantDetailsViewBinding) : RecyclerView.ViewHolder(binding.root)
+    class ViewHolder(val binding: PlantListViewItemBinding) : RecyclerView.ViewHolder(binding.root)
 }
