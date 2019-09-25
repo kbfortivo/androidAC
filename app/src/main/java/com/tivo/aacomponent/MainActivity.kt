@@ -1,11 +1,8 @@
 package com.tivo.aacomponent
 
 import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
 import androidx.databinding.DataBindingUtil
-import androidx.recyclerview.widget.LinearLayoutManager
-import com.tivo.aacomponent.adapter.PlantListAdapter
 import com.tivo.aacomponent.databinding.ActivityMainBinding
 import com.tivo.aacomponent.repository.PlantRepository
 import io.reactivex.android.schedulers.AndroidSchedulers
