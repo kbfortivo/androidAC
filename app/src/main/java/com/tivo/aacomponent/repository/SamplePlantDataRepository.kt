@@ -24,9 +24,9 @@ class SamplePlantDataRepository : PlantRepository {
 
     override fun getPlant(id: Int): Single<Plant> {
         return Single.create { emitter ->
-            allPlants
-                .find { it.id == id }
-                ?.let { emitter.onSuccess(it) } ?: emitter.onError(IllegalArgumentException("wrong id: $id"))
+            allPlants.find { it.id == id }
+                ?.let { emitter.onSuccess(it) }
+                ?: emitter.onError(IllegalArgumentException("wrong id: $id"))
         }
     }
 }
