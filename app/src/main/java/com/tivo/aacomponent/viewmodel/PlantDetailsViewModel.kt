@@ -1,19 +1,24 @@
 package com.tivo.aacomponent.viewmodel
 
-import androidx.appcompat.app.AppCompatActivity
-import androidx.lifecycle.*
-import com.tivo.aacomponent.MainActivity
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.OnLifecycleEvent
+import com.tivo.aacomponent.PlantDetailsActivity
+import com.tivo.aacomponent.PlantDetailsActivity.Companion.PLANT_ID_TAG
 import com.tivo.aacomponent.model.Plant
 import com.tivo.aacomponent.repository.PlantRepository
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 
-class PlantListViewModel(private val repository: PlantRepository) : LifecycleObserver {
-    private val _plants = MutableLiveData<List<Plant>>()
+class PlantDetailsViewModel(
+    private val repository: PlantRepository,
+    private val activity: PlantDetailsActivity
+) {
+    private val _plant = MutableLiveData<Plant>()
 
-    val plantList: MutableLiveData<List<Plant>>
-        get() = _plants
+    val plant: MutableLiveData<Plant>
+        get() = _plant
 
     private val disposable = CompositeDisposable()
 
@@ -28,13 +33,13 @@ class PlantListViewModel(private val repository: PlantRepository) : LifecycleObs
     }
 
     fun loadPlants() {
-        disposable.addAll(repository.getPlants()
+        val plantId = activity.intent.getIntExtra(PLANT_ID_TAG, -1)
+        disposable.addAll(repository.getPlant(plantId)
             .subscribeOn(Schedulers.io())
             .observeOn(AndroidSchedulers.mainThread())
-            .subscribe { plants, s ->
-                android.util.Log.d("[KB]", "on plants loaded; $plants")
-                _plants.postValue(plants)
+            .subscribe {
+                    result, s ->
+                _plant.postValue(result)
             })
     }
-
 }

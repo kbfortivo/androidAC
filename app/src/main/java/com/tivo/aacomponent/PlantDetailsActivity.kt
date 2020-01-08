@@ -1,23 +1,25 @@
 package com.tivo.aacomponent
 
-import android.app.Activity
 import android.os.Bundle
-import android.widget.TextView
+import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
-import com.bumptech.glide.Glide
+import androidx.lifecycle.Observer
 import com.tivo.aacomponent.databinding.PlantDetailsViewBinding
-import com.tivo.aacomponent.repository.PlantRepository
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.disposables.CompositeDisposable
-import io.reactivex.schedulers.Schedulers
+import com.tivo.aacomponent.model.Plant
+import com.tivo.aacomponent.viewmodel.PlantDetailsViewModel
+import org.koin.android.ext.android.getKoin
 import org.koin.android.ext.android.inject
+import org.koin.androidx.scope.currentScope
 
-class PlantDetailsActivity : Activity() {
+class PlantDetailsActivity : AppCompatActivity() {
 
     //Inject repository
-    val repository: PlantRepository by inject()
-    val disposable = CompositeDisposable()
+    val viewModel: PlantDetailsViewModel by currentScope.inject()
     lateinit var binding: PlantDetailsViewBinding
+
+    init {
+        getKoin().setProperty("activityContext", this)
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -26,19 +28,11 @@ class PlantDetailsActivity : Activity() {
         initPlant()
     }
 
-    override fun onPause() {
-        super.onPause()
-        disposable.dispose()
-    }
-
     private fun initPlant() {
-        disposable.addAll(repository.getPlant(intent.getIntExtra(PLANT_ID_TAG, -1))
-            .subscribeOn(Schedulers.io())
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe {
-                plant, s ->
-                binding.plant = plant
-            })
+        viewModel.plant.observe(this, Observer<Plant> { plant ->
+            binding.plant = plant
+        })
+        viewModel.loadPlants()
     }
 
     companion object {
